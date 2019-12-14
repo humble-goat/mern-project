@@ -200,16 +200,16 @@ router.put(
       description
     };
 
-    const experianceFields = {};
-    experianceFields.user = req.user.id;
+    const experienceFields = {};
+    experienceFields.user = req.user.id;
     if (feelings) {
-      experianceFields.feelings = feelings
+      experienceFields.feelings = feelings
         .split(",")
         .map(feelings => feelings.trim());
     }
 
     if (bond_type) {
-      experianceFields.bond_type = bond_type
+      experienceFields.bond_type = bond_type
         .split(",")
         .map(bond_type => bond_type.trim());
     }
@@ -283,5 +283,55 @@ router.put(
     }
   }
 );
+
+/* 
+    @route  DELETE api/profile/experience/:exp_id
+    @desc   Delete experience from profile
+    @access Private
+*/
+router.delete("/experience/:exp_id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // Get remove index
+    const removeIndex = profile.experience
+      .map(item => item.id)
+      .indexOf(req.param.exp_id);
+
+    profile.experience.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/* 
+    @route  DELETE api/profile/interest/:int_id
+    @desc   Delete interest from profile
+    @access Private
+*/
+router.delete("/interest/:int_id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // Get remove index
+    const removeIndex = profile.interest
+      .map(item => item.id)
+      .indexOf(req.param.int_id);
+
+    profile.interest.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 module.exports = router;
