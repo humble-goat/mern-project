@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
     type: String
   },
   date_of_birth: {
-    type: Date,
+    type: Date
   },
   date_joined: {
     type: Date,
