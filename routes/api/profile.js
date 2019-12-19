@@ -4,6 +4,8 @@ const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator/");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
+
 /* 
     @route  GET api/profile/this
     @desc   Get current users profile
@@ -12,6 +14,7 @@ const User = require("../../models/User");
 
 router.get("/this", auth, async (req, res) => {
   try {
+    // FIXME: IF No Profile, Serious Shit happens
     const profile = await Profile.findOne({
       user: req.user.id
     }).populate("user", ["name", "avatar"]);
@@ -42,7 +45,7 @@ router.post(
       check("gender", "Gender is required")
         .not()
         .isEmpty(),
-      check("sex_preferances", "Sex Preferances is required")
+      check("sex_preferences", "Sex Preferances is required")
         .not()
         .isEmpty()
     ]
@@ -53,7 +56,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { location, sex_preferances, status, gender, date } = req.body;
+    const { location, sex_preferences, status, gender, date } = req.body;
 
     const profileFields = {};
     profileFields.user = req.user.id;
@@ -61,12 +64,11 @@ router.post(
     if (status) profileFields.status = status;
     if (gender) profileFields.gender = gender;
     if (date) profileFields.date = date;
-    if (sex_preferances) {
-      profileFields.sex_preferances = sex_preferances
+    if (sex_preferences) {
+      profileFields.sex_preferences = sex_preferences
         .split(",")
-        .map(sex_preferances => sex_preferances.trim());
+        .map(sex_preferences => sex_preferences.trim());
     }
-    console.log(profileFields.sex_preferances);
     try {
       let profile = await Profile.findOne({ user: req.user.id });
 
@@ -135,6 +137,9 @@ router.get("/user/:user_id", async (req, res) => {
 */
 router.delete("/", auth, async (req, res) => {
   try {
+    // @ts-check
+    // Remove User post
+    await Post.deleteMany({ user: req.user.id });
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user

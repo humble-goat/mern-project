@@ -12,7 +12,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  sex_preferances: {
+  sex_preferences: {
     type: [String],
     required: true
   },
@@ -98,6 +98,10 @@ const ProfileSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  about: {
+    type: String,
+    default: "Write Something about yourself"
   }
 });
 
