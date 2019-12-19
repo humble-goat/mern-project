@@ -14,13 +14,14 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       </li>
       <li>
         <Link to='/posts'>
-          <i class='fas fa-biohazard'></i> <span className='hide-sm'>Wall</span>
+          <i className='fas fa-biohazard'></i>{" "}
+          <span className='hide-sm'>Wall</span>
         </Link>
       </li>
 
       <li>
         <Link to='/profile'>
-          <i class='fas fa-fist-raised'></i>{" "}
+          <i className='fas fa-fist-raised'></i>{" "}
           <span className='hide-sm'>Losers</span>
         </Link>
       </li>
