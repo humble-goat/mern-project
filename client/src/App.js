@@ -19,6 +19,7 @@ import AddExperience from "./components/profile-forms/AddExperience";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 import AddInterest from "./components/profile-forms/AddInterest";
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -64,6 +65,7 @@ const App = () => {
                 component={AddInterest}
               />
               <PrivateRoute exact path='/posts' component={Posts} />
+              <PrivateRoute exact path='/posts/:post_id' component={Post} />
             </Switch>
           </section>
         </Fragment>

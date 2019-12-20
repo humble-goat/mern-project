@@ -5,7 +5,8 @@ import {
   POST_ERROR,
   UPDATE_YIKES,
   DELETE_POST,
-  CREATE_POST
+  CREATE_POST,
+  GET_POST
 } from "./types";
 
 // Get posts
@@ -96,6 +97,24 @@ export const createPost = formData => async dispatch => {
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.responce.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get post
+
+export const getPost = post_id => async dispatch => {
+  try {
+    const res = await axios.get(`api/posts/${post_id}`);
+    dispatch({
+      type: GET_POST,
+      payload: res.data
+    });
+  } catch (err) {
+    console.log(post_id);
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
