@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
 const Post = require("../../models/Post");
@@ -47,7 +46,7 @@ router.post(
 
 /* 
     @route  GET api/posts
-    @desc   Cet all posts
+    @desc   Get all posts
     @access Private
 */
 
@@ -67,17 +66,16 @@ router.get("/", auth, async (req, res) => {
     @access Private
 */
 
-router.get("/:post_id", auth, async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.post_id);
+    const post = await Post.findById(req.params.id);
 
     if (!post) {
       return res.status(404).json({ msg: "Post Not Found!" });
     }
     res.json(post);
   } catch (err) {
-    console.error(err.message);
-    if (err.kind == "ObjectId") {
+    if (err.kind === "ObjectId") {
       return res.status(404).json({ msg: "Post Not Found!" });
     }
     res.status(500).send("Server Error");
@@ -90,9 +88,9 @@ router.get("/:post_id", auth, async (req, res) => {
     @access Private
 */
 
-router.delete("/:post_id", auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
-    const post = await Post.findById(req.params.post_id);
+    const post = await Post.findById(req.params.id);
 
     // Check user
     if (post.user.toString() !== req.user.id) {

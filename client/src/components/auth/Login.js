@@ -21,7 +21,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   // Redirect if logged in
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to={"/dashboard"} />;
   }
   return (
     <Fragment>
@@ -54,7 +54,7 @@ const Login = ({ login, isAuthenticated }) => {
         <input type='submit' className='btn btn-primary' value='Login' />
       </form>
       <p className='my-1'>
-        Don't have an account? <Link to='/login'>Sign Up</Link>
+        Don't have an account? <Link to={"/login"}>Sign Up</Link>
       </p>
     </Fragment>
   );

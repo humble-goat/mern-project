@@ -24,13 +24,13 @@ const Profile = ({
         <Spinner />
       ) : (
         <Fragment>
-          <Link to='/profile' className='btn btn-light'>
-            Back to profiles
+          <Link to={"/profile"} className='btn btn-light'>
+            Back to Profiles
           </Link>
           {auth.isAuthenticated &&
             auth.loading === false &&
             auth.user._id === profile.user._id && (
-              <Link to='/edit-profile' className='btn btn-dark'>
+              <Link to={"/edit-profile"} className='btn btn-dark'>
                 Edit Profile
               </Link>
             )}

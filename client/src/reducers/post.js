@@ -3,8 +3,10 @@ import {
   POST_ERROR,
   UPDATE_YIKES,
   DELETE_POST,
-  CREATE_POST,
-  GET_POST
+  ADD_POST,
+  GET_POST,
+  ADD_COMMENT,
+  REMOVE_COMMENT
 } from "../actions/types";
 
 const initialState = {
@@ -30,7 +32,7 @@ export default function(state = initialState, action) {
         post: payload,
         loading: false
       };
-    case CREATE_POST:
+    case ADD_POST:
       return {
         ...state,
         posts: [payload, ...state.posts],
@@ -42,18 +44,35 @@ export default function(state = initialState, action) {
         posts: state.posts.filter(post => post._id !== payload),
         loading: false
       };
-    case POST_ERROR:
-      return {
-        ...state,
-        error: payload,
-        loading: false
-      };
     case UPDATE_YIKES:
       return {
         ...state,
         posts: state.posts.map(post =>
           post._id === payload.id ? { ...post, yikes: payload.yikes } : post
         ),
+        loading: false
+      };
+    case POST_ERROR:
+      return {
+        ...state,
+        error: payload,
+        loading: false
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        post: { ...state.post, comments: payload },
+        loading: false
+      };
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: state.post.comments.filter(
+            comment => comment._id !== payload
+          )
+        },
         loading: false
       };
     default:
